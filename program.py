@@ -9,28 +9,72 @@ import pyaudio
 import keyboard  # Import the keyboard library
 import threading
 
-# Set the model path
-model_path = r"C:\Users\shaya\OneDrive\Desktop\Programming\Voice-For-Vice\vosk-model-small-en-us-0.15"
-if not os.path.exists(model_path):
-    print("Model not found. Please download and extract a Vosk model.")
+# Define the model path relative to the script's location
+if getattr(sys, 'frozen', False):  # If the app is frozen (running as .exe)
+    model_path = Path(sys._MEIPASS) / "vosk-model-small-en-us-0.15"
+else:  # If running as a script
+    model_path = Path(__file__).parent / "vosk-model-small-en-us-0.15"  # Current directory
+
+if not model_path.exists():
+    print(f"Model not found in {model_path}. Please ensure it is in the same directory as the script.")
     exit(1)
 
-model = Model(model_path)
-recognizer = KaldiRecognizer(model, 16000)
+model = Model(str(model_path))
 
 # Mapping commands to abbreviations
 command_mapping = {
-    "direct": "D",
-    "via": "V",
-    "sid": "S",
-    "star": "S",
+    #Headings
+    "turn": "H",
+    "left": "H",
+    "Right": "R",
+    "Heading": "H",
+    "Head": "H",
+    "fly": "H",
+    "flight": "H",
+    "flooding": "H",
+    "fighting": "H",
+    "Hheading": "H",
+    "play hanging": "H",
+
+    #speeds
+    "speed": "S",
+    "speeds": "S",
+    "reduce": "S",
+    "increse": "S",
+    "slow": "S",
+
+    #altuides
+    "cromatina": "C",
+    "chrome": "C",
+    "descendant maintained": "C",
+    "clementine": "C",
     "climb": "C",
-    "descend": "D",
-    "ils": "I",
-    "rnav": "R",
-    "left": "L",
-    "right": "R",
-    "heading": "H"
+    "maintain": "C",
+    "desend": "C",
+    "climate change": "C",
+    "crime": "C",
+    "clamp": "C",
+    "clam": "C",
+    "client": "C",
+
+    #next controller
+    "contact depature": "FC",
+    "depart": "FC",
+
+    #tower
+    "tower": "TO",
+    "contact tower": "TO",
+
+    #locliser
+    "intercept": "I",
+    "locliser": "I",
+    "inter": "I",
+    "sept": "I",
+
+    #directs
+    "direct": "D",
+    "procedure": "D",
+    "proceed": "D"
 }
 
 # Mapping number words to their integer values

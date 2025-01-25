@@ -1,4 +1,19 @@
 Voice for Vice Documentation
 
-This Manual Will Guide you through the Voice For Vice Setup
+This Manual Will Guide you through the Voice For Vice Setup.
+
+Extract the VOICE FOR VICE application into a location of your choice.
+
+Extracting A Vosk Model:
+This application uses the Vosk offline speech recognition Model
+Install the english small Model: vosk-model-small-en-us-0.15, via the link below:
+
+https://alphacephei.com/vosk/models
+
+
+Run the program, as normal
+Ensure that the Vice ATC Simulator is focused
+
+Press "END" key to transmit a message
+
 
