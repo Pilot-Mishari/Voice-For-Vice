@@ -10,6 +10,7 @@ from vosk import Model, KaldiRecognizer
 import pyaudio
 import keyboard  # Import the keyboard library
 import threading
+from command_mapping import command_mapping, number_mapping
 
 # Define the model path relative to the script's location
 if getattr(sys, 'frozen', False):  # If the app is frozen (running as .exe)
@@ -28,79 +29,6 @@ model = Model(str(model_path))
 recognizer = KaldiRecognizer(model, 16000)
 print("Model loaded successfully.")
 
-# Mapping commands to abbreviations
-command_mapping = {
-    #Headings
-    "turn": "H",
-    "left": "H",
-    "Right": "R",
-    "Heading": "H",
-    "Head": "H",
-    "fly": "H",
-    "flight": "H",
-    "flooding": "H",
-    "fighting": "H",
-    "Hheading": "H",
-    "play hanging": "H",
-
-    #speeds
-    "speed": "S",
-    "speeds": "S",
-    "reduce": "S",
-    "increse": "S",
-    "slow": "S",
-
-    #altuides
-    "cromatina": "C",
-    "chrome": "C",
-    "descendant maintained": "C",
-    "clementine": "C",
-    "climb": "C",
-    "maintain": "C",
-    "desend": "C",
-    "climate change": "C",
-    "crime": "C",
-    "clamp": "C",
-    "clam": "C",
-    "client": "C",
-
-    #next controller
-    "contact depature": "FC",
-    "depart": "FC",
-
-    #tower
-    "tower": "TO",
-    "contact tower": "TO",
-
-    #locliser
-    "intercept": "I",
-    "locliser": "I",
-    "inter": "I",
-    "sept": "I",
-
-    #directs
-    "direct": "D",
-    "procedure": "D",
-    "proceed": "D"
-}
-
-# Mapping number words to their integer values
-number_mapping = {
-    "zero": "0",
-    "one": "1",
-    "two": "2",
-    "three": "3",
-    "four": "4",
-    "five": "5",
-    "six": "6",
-    "seven": "7",
-    "eight": "8",
-    "nine": "9",
-    "ten": "10",
-    "hundred": "100",
-    "thousand": "1000"
-}
-
 def convert_numbers_to_string(words):
     """Convert number words to their numeric string representation."""
     numeric_string = ""
@@ -108,6 +36,14 @@ def convert_numbers_to_string(words):
         if word in number_mapping:
             numeric_string += number_mapping[word]
     return numeric_string
+
+def process_number(numeric_string):
+    if len(numeric_string) == 5:
+        return numeric_string[:3] 
+    elif len(numeric_string) == 4: 
+        return '0' + numeric_string[:2]
+    else:
+        return numeric_string
 
 def listen_and_type():
     print("Initializing PyAudio...")
@@ -137,6 +73,7 @@ def listen_and_type():
                         abbreviated_command.append(mapped_word)
                     else:
                         numeric_string += convert_numbers_to_string([word])  # Convert numbers separately
+                        numeric_string = process_number(numeric_string)
 
                 # Join the abbreviations and numeric string
                 final_abbreviation = ';' + ''.join(abbreviated_command) + numeric_string
@@ -145,10 +82,9 @@ def listen_and_type():
                 status_label.config(text=f"You said: {command} (Mapped: {final_abbreviation})")
                 time.sleep(1)
 
-                # Type the command and press Enter
-                pyautogui.typewrite(final_abbreviation + '\n')
-                pyautogui.press('enter')  # Simulate pressing the Enter key
-                print("Command typed and Enter key pressed.")
+                # Type the command
+                pyautogui.write(final_abbreviation + '\n', interval=0.1)
+                print("Command typed.")
 
                 break
 

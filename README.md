@@ -11,7 +11,7 @@ For more details, please refer to the documents within the documentation folder.
 
 # Credits
 
--> VICE ATC Simulator Team
+-> VICE ATC Simulator Team  
 -> AmpiTanda
 
 Special thanks to those mentioned above for their work in the contribution to this project.
