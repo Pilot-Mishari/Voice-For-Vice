@@ -47,8 +47,43 @@ command_mapping = {
 
     #directs
     "direct": "D",
-    "procedure": "D",
-    "proceed": "D"
+    "derek": "D",
+    "correct": "D",
+
+    #Phonetic alphabet
+    "alpha": "A",
+    "bravo": "B",
+    "charlie": "C",
+    "delta": "D",
+    "echo": "E",
+    "foxtrot": "F",
+    "golf": "G",
+    "gulf": "G",
+    "hotel": "H",
+    "india": "I",
+    "juliet": "J",
+    "julia": "J",
+    "kilo": "K",
+    "keeler": "K",
+    "killer": "K",
+    "lima": "L",
+    "mike": "M",
+    "november": "N",
+    "oscar": "O",
+    "papa": "P",
+    "quebec": "Q",
+    "qu bec": "Q",
+    "romeo": "R",
+    "sierra": "S",
+    "tango": "T",
+    "uniform": "U",
+    "victor": "V",
+    "whiskey": "W",
+    "x-ray": "X",
+    "x ray": "X",
+    "yankee": "Y",
+    "zulu": "Z",
+    "hello": "Z",
 }
 
 # Mapping number words to their integer values
@@ -56,6 +91,7 @@ number_mapping = {
     "zero": "0",
     "one": "1",
     "two": "2",
+    "to": "2",
     "three": "3",
     "four": "4",
     "five": "5",

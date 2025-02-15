@@ -3,12 +3,11 @@ import json
 import pyautogui
 import time
 import sys
-import tkinter as tk
-from tkinter import messagebox
+import customtkinter as ctk
 from pathlib import Path
 from vosk import Model, KaldiRecognizer
 import pyaudio
-import keyboard  # Import the keyboard library
+import keyboard
 import threading
 from command_mapping import command_mapping, number_mapping
 
@@ -52,7 +51,7 @@ def listen_and_type():
     stream.start_stream()
     print("PyAudio initialized and stream started.")
 
-    status_label.config(text="Listening for command...")
+    status_label.configure(text="Listening for command...")
     
     while True:
         data = stream.read(4000)
@@ -79,7 +78,7 @@ def listen_and_type():
                 final_abbreviation = ';' + ''.join(abbreviated_command) + numeric_string
                 print(f"Mapped command: {final_abbreviation}")
 
-                status_label.config(text=f"You said: {command} (Mapped: {final_abbreviation})")
+                status_label.configure(text=f"You said: {command} (Mapped: {final_abbreviation})")
                 time.sleep(1)
 
                 # Type the command
@@ -102,14 +101,19 @@ def start_listening():
 
 # Create the main window
 print("Creating main window...")
-root = tk.Tk()
-root.title("Voice Command Input for Vice ATC Simulator")
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("blue")
 
-frame = tk.Frame(root)
-frame.pack(pady=20)
+root = ctk.CTk()
+root.title("Voice for Vice")
+root.minsize(300, 100)
+root.geometry("300x100")
 
-status_label = tk.Label(frame, text="Press 'END' to start listening", font=("Arial", 14))
-status_label.pack(pady=10)
+frame = ctk.CTkFrame(root)
+frame.pack(pady=10, padx=10, fill="both", expand=True)
+
+status_label = ctk.CTkLabel(frame, text="Press 'END' to start listening", font=("Arial", 14), wraplength=250)
+status_label.pack(expand=True)
 
 # Start the listening loop in a separate thread
 print("Starting listener thread...")
