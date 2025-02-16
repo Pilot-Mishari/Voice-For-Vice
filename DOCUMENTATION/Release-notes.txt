@@ -3,9 +3,6 @@ Version 0.1.1 (Experimental)
         Basic Commands
         ATC is able to give voice commands
 
-    Known issues:
-        2 is sometimes set to "to"
-    
     Future Additions:
         Pilot response in voice as well
         Realistic Radio Affects 

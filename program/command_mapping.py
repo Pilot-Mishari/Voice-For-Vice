@@ -30,6 +30,7 @@ command_mapping = {
     "clamp": "C",
     "clam": "C",
     "client": "C",
+    "descend": "C",
 
     #next controller
     "contact depature": "FC",
@@ -49,6 +50,7 @@ command_mapping = {
     "direct": "D",
     "derek": "D",
     "correct": "D",
+    "directs": "D",
 
     #Phonetic alphabet
     "alpha": "A",
