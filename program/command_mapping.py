@@ -31,6 +31,7 @@ command_mapping = {
     "clam": "C",
     "client": "C",
     "descend": "C",
+    "the sand": "C",
 
     #next controller
     "contact depature": "FC",

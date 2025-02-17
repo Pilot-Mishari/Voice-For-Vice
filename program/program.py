@@ -7,6 +7,7 @@ from vosk import Model, KaldiRecognizer
 import pyaudio
 import keyboard
 from command_mapping import command_mapping, number_mapping
+import settings
 
 # Define the model path relative to the script's location
 if getattr(sys, 'frozen', False):  # If the app is frozen (running as .exe)
@@ -89,9 +90,10 @@ def listen_and_type(update_status):
     print("Stream stopped and PyAudio terminated.")
 
 def start_listening(update_status):
-    # Wait for the 'END' key press and call listen_and_type function
-    print(f"Waiting for 'END' key press to start listening...")
+    # Wait for the ptt_key key press and call listen_and_type function
+    print(f"Waiting for {settings.ptt_key} key press to start listening...")
     while True:
-        keyboard.wait('end') # change to verible when we have a settings page
-        print("'END' key pressed. Starting to listen...") # change 'end' to a verible when we have a settings page
+        print(f"Press {settings.ptt_key} to start listening")
+        keyboard.wait(f"{settings.ptt_key}")
+        print(f"{settings.ptt_key} key pressed. Starting to listen...")
         listen_and_type(update_status)
