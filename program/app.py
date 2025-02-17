@@ -24,9 +24,15 @@ frame.pack(pady=10, padx=10, fill="both", expand=True)
 status_label = ctk.CTkLabel(frame, text=f"Press {settings.ptt_key} to start listening", font=("Arial", 14), wraplength=250)
 status_label.pack(pady=(0, 10), expand=True)
 
+############################ Placeholder function for the settings button untill it is implemented ###################
+def placeholder(): ######### Delete this function when the settings button is implemented ############################
+    print("placeholder") ## Delete this function when the settings button is implemented #############################
+
+
 # function to update the status label
 def update_status(message):
-    status_label.configure(text=message) # update the status label with the "message", to update the status label: update_status("your message here")
+    # update the status label with the "message", to update the status label: update_status("your message here")
+    status_label.configure(text=message)
 
 # Function to open the settings window
 def open_settings():
@@ -110,8 +116,8 @@ def open_approaches():
 main_button_frame = ctk.CTkFrame(root, fg_color="transparent")
 main_button_frame.pack(pady=(0, 10), padx=10, fill="x")
 
-# Approaches button
-approaches_button = ctk.CTkButton(main_button_frame, text="Approaches", command=open_approaches)
+# Approaches button ### replce the command with open_approaches when implmented ###
+approaches_button = ctk.CTkButton(main_button_frame, text="Approaches (WIP)", fg_color="#333333", hover_color="#333333",command = placeholder)
 approaches_button.pack(side="left", padx=(0, 5))
 
 # Settings button

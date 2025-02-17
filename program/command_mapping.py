@@ -34,8 +34,7 @@ command_mapping = {
     "the sand": "C",
 
     #next controller
-    "contact depature": "FC",
-    "depart": "FC",
+    "contact": "FC",
 
     #tower
     "tower": "TO",
