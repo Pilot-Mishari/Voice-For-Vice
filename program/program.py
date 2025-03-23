@@ -79,7 +79,7 @@ def listen_and_type(update_status):
                 update_status(f"You said: {command} (Mapped: {final_abbreviation})")
                 time.sleep(1)
 
-                pyautogui.write(final_abbreviation + '\n', interval=0.1)
+                pyautogui.write(final_abbreviation)
                 print("Command typed.")
 
                 break

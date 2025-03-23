@@ -1,22 +1,16 @@
 # Mapping commands to abbreviations
 command_mapping = {
     #Headings
-    "turn": "H",
     "Heading": "H",
     "Head": "H",
-    "fly": "H",
     "flight": "H",
     "flooding": "H",
     "fighting": "H",
     "Hheading": "H",
-    "play hanging": "H",
 
     #speeds
     "speed": "S",
     "speeds": "S",
-    "reduce": "S",
-    "increse": "S",
-    "slow": "S",
 
     #altuides
     "cromatina": "C",
@@ -38,11 +32,9 @@ command_mapping = {
 
     #tower
     "tower": "TO",
-    "contact tower": "TO",
 
     #locliser
     "intercept": "I",
-    "locliser": "I",
     "inter": "I",
     "sept": "I",
 
@@ -110,6 +102,8 @@ number_mapping = {
     "sixteen": "16",
     "seventeen": "17",
     "eighteen": "18",
+    "nineteen": "19",
+    "twenty": "20",
     "hundred": "00",
     "thousand": "000"
 }

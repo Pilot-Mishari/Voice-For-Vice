@@ -9,6 +9,10 @@ print("Creating main window...")
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
+############################ Placeholder function for the settings button untill it is implemented ###################
+def placeholder(): ######### Delete this function when the settings button is implemented ############################
+    print("placeholder") ## Delete this function when the settings button is implemented #############################
+
 root = ctk.CTk()
 root.title("Voice for Vice")
 root.minsize(300, 150)
@@ -24,11 +28,6 @@ frame.pack(pady=10, padx=10, fill="both", expand=True)
 status_label = ctk.CTkLabel(frame, text=f"Press {settings.ptt_key} to start listening", font=("Arial", 14), wraplength=250)
 status_label.pack(pady=(0, 10), expand=True)
 
-############################ Placeholder function for the settings button untill it is implemented ###################
-def placeholder(): ######### Delete this function when the settings button is implemented ############################
-    print("placeholder") ## Delete this function when the settings button is implemented #############################
-
-
 # function to update the status label
 def update_status(message):
     # update the status label with the "message", to update the status label: update_status("your message here")
@@ -40,7 +39,7 @@ def open_settings():
     settings_window.title("Settings")
     settings_window.minsize(300, 265)
     settings_window.geometry("300x265")
-    settings_window.resizable(True, True) # change to false when we have a settings page
+    settings_window.resizable(False, False) 
     settings_window.attributes("-topmost", True)
 
     # Function to handle PTT key setup
@@ -107,17 +106,53 @@ def open_settings():
 def open_approaches():
     approaches_window = ctk.CTkToplevel(root)
     approaches_window.title("Approaches")
-    approaches_window.minsize(300, 200)
-    approaches_window.geometry("300x200")
+    approaches_window.minsize(300, 265)
+    approaches_window.geometry("300x265")
     approaches_window.resizable(False, False)
     approaches_window.attributes("-topmost", True)
+
+    # Create a frame to hold all rows
+    approaches_frame = ctk.CTkFrame(approaches_window)
+    approaches_frame.pack(pady=10, padx=10, fill="x")
+
+    # Approach types
+    approach_types = ["ILS", "RNAV", "Visual", "None"]
+
+    # Function to create a row
+    def create_approach_row(parent, row_num):
+        approach_dropdown = ctk.CTkComboBox(parent, values=approach_types, width=80)
+        approach_dropdown.grid(row=row_num, column=0, padx=5, pady=5)
+        approach_dropdown.set("Select")
+
+        runway_entry = ctk.CTkEntry(parent, width=40, placeholder_text="RWY")
+        runway_entry.grid(row=row_num, column=1, padx=5, pady=5)
+
+        approach_code_entry = ctk.CTkEntry(parent, width=100, placeholder_text="Approach Code")
+        approach_code_entry.grid(row=row_num, column=2, padx=5, pady=5)
+
+    # Create 3 rows
+    for i in range(5):
+        create_approach_row(approaches_frame, i)
+
+    # Ensure columns are properly aligned
+    approaches_frame.columnconfigure(0, weight=1)
+    approaches_frame.columnconfigure(1, weight=1)
+    approaches_frame.columnconfigure(2, weight=1)
+
+    # Save button frame
+    save_button_frame = ctk.CTkFrame(approaches_window, fg_color="transparent")
+    save_button_frame.pack(pady=(2, 0), padx=10, fill="both")
+
+    save_button = ctk.CTkButton(save_button_frame, text="Save", command=approaches_window.destroy)
+    save_button.pack(side="right", pady=0, padx=0)
+
 
 # Create a frame for the buttons to keep them separated from the status label
 main_button_frame = ctk.CTkFrame(root, fg_color="transparent")
 main_button_frame.pack(pady=(0, 10), padx=10, fill="x")
 
-# Approaches button ### replce the command with open_approaches when implmented ###
-approaches_button = ctk.CTkButton(main_button_frame, text="Approaches (WIP)", fg_color="#333333", hover_color="#333333",command = placeholder)
+# Approaches button (Replace the placeholder function with open_approaches when the Approaches window is implemented in program.py)
+approaches_button = ctk.CTkButton(main_button_frame, text="Approaches (WIP)", fg_color="#333333", hover_color="#333333",command =placeholder)
 approaches_button.pack(side="left", padx=(0, 5))
 
 # Settings button
