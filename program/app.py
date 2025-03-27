@@ -3,15 +3,16 @@ import threading
 from program import start_listening
 import keyboard
 import settings
+import os
+import subprocess
+import logging
+
+log_file_path = "log.txt"
 
 # Create the main window
-print("Creating main window...")
+logging.info("Creating main window...")
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
-
-############################ Placeholder function for the settings button untill it is implemented ###################
-def placeholder(): ######### Delete this function when the settings button is implemented ############################
-    print("placeholder") ## Delete this function when the settings button is implemented #############################
 
 root = ctk.CTk()
 root.title("Voice for Vice")
@@ -28,6 +29,26 @@ frame.pack(pady=10, padx=10, fill="both", expand=True)
 status_label = ctk.CTkLabel(frame, text=f"Press {settings.ptt_key} to start listening", font=("Arial", 14), wraplength=250)
 status_label.pack(pady=(0, 10), expand=True)
 
+############################ Placeholder function for the settings menu untill it is implemented #####################
+def placeholder(): ######### Delete this function when the settings button is implemented ############################
+    print("placeholder") ### Delete this function when the settings button is implemented ############################
+
+# Opens the log file in notepad
+def open_log_file():
+    if not os.path.exists(log_file_path):
+        with open(log_file_path, "w") as file:
+            file.write("")
+    subprocess.run(["notepad.exe", log_file_path], check=True)
+
+# Waits to hear the hotkey ctrl + L
+def start_hotkey_listener_logs():
+    keyboard.add_hotkey("ctrl+l", open_log_file)
+    keyboard.wait()
+
+# Run the hotkey listener in a background thread
+key_listener_thread = threading.Thread(target=start_hotkey_listener_logs, daemon=True)
+key_listener_thread.start()
+
 # function to update the status label
 def update_status(message):
     # update the status label with the "message", to update the status label: update_status("your message here")
@@ -39,7 +60,7 @@ def open_settings():
     settings_window.title("Settings")
     settings_window.minsize(300, 265)
     settings_window.geometry("300x265")
-    settings_window.resizable(False, False) 
+    settings_window.resizable(True, True) # change to false when we have a settings page
     settings_window.attributes("-topmost", True)
 
     # Function to handle PTT key setup
@@ -53,7 +74,7 @@ def open_settings():
             keyboard.unhook_all()  # Stop listening for keys after one is pressed
             ptt_button.configure(text=f"PTT key set to: {settings.ptt_key}")
             update_status(f"Press {settings.ptt_key} to start listening")
-            print(f"PTT key set to: {settings.ptt_key}")
+            logging.info(f"PTT key set to: {settings.ptt_key}")
 
             # Restart listening for the new PTT key
             listener_thread = threading.Thread(target=start_listening, args=(update_status,), daemon=True)
@@ -62,12 +83,12 @@ def open_settings():
         keyboard.on_press(on_key_press)  # Listen for any key press
 
     # Appearance settings
-    settings_appearance_frame = ctk.CTkFrame(settings_window, fg_color="transparent", width=300, height=100)
+    settings_appearance_frame = ctk.CTkFrame(settings_window, width=300, height=100)
     settings_appearance_frame.pack(pady=(10, 5), padx=10)
     settings_appearance_frame.pack_propagate(False)
 
     settings_appearance_label = ctk.CTkLabel(settings_appearance_frame, text="Appearance Settings", font=("Arial", 14))
-    settings_appearance_label.pack(pady=0, padx=10)
+    settings_appearance_label.pack(pady=(10, 0), padx=10)
 
     appearance_button_frame = ctk.CTkFrame(settings_appearance_frame, fg_color="transparent")
     appearance_button_frame.pack(pady=(10, 0), padx=0, fill="x")
@@ -82,12 +103,12 @@ def open_settings():
     auto_button.pack(side="right", pady=5, padx=(0, 10))
 
     # Push to talk settings
-    settings_ptt_frame = ctk.CTkFrame(settings_window, fg_color="transparent", width=300, height=100)
+    settings_ptt_frame = ctk.CTkFrame(settings_window, width=300, height=100)
     settings_ptt_frame.pack(pady=(5, 5), padx=10)
     settings_ptt_frame.pack_propagate(False)
 
     settings_ptt_label = ctk.CTkLabel(settings_ptt_frame, text="Push-To-Talk Settings", font=("Arial", 14))
-    settings_ptt_label.pack(pady=0, padx=10)
+    settings_ptt_label.pack(pady=(10, 0), padx=10)
 
     ptt_button_frame = ctk.CTkFrame(settings_ptt_frame, fg_color="transparent")
     ptt_button_frame.pack(pady=(10, 0), padx=0, fill="x")
@@ -106,13 +127,13 @@ def open_settings():
 def open_approaches():
     approaches_window = ctk.CTkToplevel(root)
     approaches_window.title("Approaches")
-    approaches_window.minsize(300, 265)
-    approaches_window.geometry("300x265")
+    approaches_window.minsize(300, 250)
+    approaches_window.geometry("300x250")
     approaches_window.resizable(False, False)
     approaches_window.attributes("-topmost", True)
 
-    # Create a frame to hold all rows
-    approaches_frame = ctk.CTkFrame(approaches_window)
+      # Create a frame to hold all rows
+    approaches_frame = ctk.CTkFrame(approaches_window, fg_color="transparent")
     approaches_frame.pack(pady=10, padx=10, fill="x")
 
     # Approach types
@@ -130,7 +151,7 @@ def open_approaches():
         approach_code_entry = ctk.CTkEntry(parent, width=100, placeholder_text="Approach Code")
         approach_code_entry.grid(row=row_num, column=2, padx=5, pady=5)
 
-    # Create 3 rows
+    # Create 5 rows (can create more rows if needed but 5 seems adquite for most scenarios)
     for i in range(5):
         create_approach_row(approaches_frame, i)
 
@@ -146,12 +167,11 @@ def open_approaches():
     save_button = ctk.CTkButton(save_button_frame, text="Save", command=approaches_window.destroy)
     save_button.pack(side="right", pady=0, padx=0)
 
-
 # Create a frame for the buttons to keep them separated from the status label
 main_button_frame = ctk.CTkFrame(root, fg_color="transparent")
 main_button_frame.pack(pady=(0, 10), padx=10, fill="x")
 
-# Approaches button (Replace the placeholder function with open_approaches when the Approaches window is implemented in program.py)
+# Approaches button ### replce the command with open_approaches when implmented ###
 approaches_button = ctk.CTkButton(main_button_frame, text="Approaches (WIP)", fg_color="#333333", hover_color="#333333",command =placeholder)
 approaches_button.pack(side="left", padx=(0, 5))
 
@@ -160,9 +180,8 @@ settings_button = ctk.CTkButton(main_button_frame, text="Settings", command=open
 settings_button.pack(side="right", padx=(5, 0))
 
 # Start the listening loop in a separate thread
-print("Starting listener thread...")
+logging.info("Starting listener thread...")
 listener_thread = threading.Thread(target=start_listening, args=(update_status,), daemon=True)
 listener_thread.start()
 
-print("Starting main loop...")
 root.mainloop()

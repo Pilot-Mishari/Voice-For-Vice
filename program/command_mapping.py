@@ -1,40 +1,26 @@
 # Mapping commands to abbreviations
 command_mapping = {
     #Headings
-    "Heading": "H",
-    "Head": "H",
-    "flight": "H",
-    "flooding": "H",
-    "fighting": "H",
+    "heading": "H",
+    "head": "H",
     "Hheading": "H",
+    "having": "H",
+    "getting": "H",
+    "adding": "H",
 
     #speeds
     "speed": "S",
     "speeds": "S",
+    "reduce": "S",
+    "increse": "S",
+    "slow": "S",
 
     #altuides
-    "cromatina": "C",
-    "chrome": "C",
-    "descendant maintained": "C",
-    "clementine": "C",
-    "climb": "C",
-    "desend": "C",
-    "climate change": "C",
-    "crime": "C",
-    "clamp": "C",
-    "clam": "C",
-    "client": "C",
-    "descend": "C",
-    "the sand": "C",
-
-    #next controller
-    "contact": "FC",
-
-    #tower
-    "tower": "TO",
+    "maintain": "C",
 
     #locliser
     "intercept": "I",
+    "locliser": "I",
     "inter": "I",
     "sept": "I",
 
@@ -83,11 +69,14 @@ command_mapping = {
 # Mapping number words to their integer values
 number_mapping = {
     "zero": "0",
+    "era": "0",
     "one": "1",
     "two": "2",
+    "tooth": "2",
     "to": "2",
     "three": "3",
     "four": "4",
+    "for": "4",
     "five": "5",
     "six": "6",
     "seven": "7",
@@ -102,8 +91,9 @@ number_mapping = {
     "sixteen": "16",
     "seventeen": "17",
     "eighteen": "18",
-    "nineteen": "19",
-    "twenty": "20",
     "hundred": "00",
-    "thousand": "000"
+    "thousand": "000",
+    "that": "000",
+    "them": "000",
+    "end": "000",
 }

@@ -20,7 +20,7 @@ Special thanks to those mentioned above for their work in the contribution to th
 
 # Installation
 
--> Download the software from the <a href="https://github.com/Pilot-Mishari/Voice-For-Vice/releases/"> releases tabl </a>
+-> Download the software from the <a href="https://github.com/Pilot-Mishari/Voice-For-Vice/releases/"> releases tab </a>
 
 -----------------------------------------------------------------------------------------------------------------------------------
 

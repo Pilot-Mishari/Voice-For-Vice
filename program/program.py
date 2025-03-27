@@ -8,6 +8,22 @@ import pyaudio
 import keyboard
 from command_mapping import command_mapping, number_mapping
 import settings
+import logging
+
+log_file = "log.txt"
+
+logging.basicConfig( filename=log_file, level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s" )
+
+COMMAND_LEVEL = 25
+logging.addLevelName(COMMAND_LEVEL, "COMMAND")
+
+# Function to log at the custom command level
+def command(self, message, *args, **kwargs):
+    if self.isEnabledFor(COMMAND_LEVEL):
+        self._log(COMMAND_LEVEL, message, args, **kwargs)
+
+logging.Logger.command = command    
+logger = logging.getLogger(__name__)
 
 # Define the model path relative to the script's location
 if getattr(sys, 'frozen', False):  # If the app is frozen (running as .exe)
@@ -18,13 +34,16 @@ else:  # If running as a script
 model_path = base_path / "vosk-model-small-en-us-0.15"
 
 if not model_path.exists():
-    print(f"Model not found in {model_path}. Please ensure it is included in the bundle.")
+    logging.error(f"Model not found in {model_path}. Please ensure it is included in the bundle.")
     sys.exit(1)
 
-print("Loading model...")
 model = Model(str(model_path))
 recognizer = KaldiRecognizer(model, 16000)
-print("Model loaded successfully.")
+logging.info("Model loaded successfully.")
+
+
+def log_command_mapping(command, final_abbreviation):
+        logger.command(f'"{command}": "{final_abbreviation}",')
 
 def convert_numbers_to_string(words):
     # Convert number words to their numeric string representation.
@@ -45,11 +64,11 @@ def process_number(numeric_string):
 
 def listen_and_type(update_status):
     # Listen for a command map the command and type it out)
-    print("Initializing PyAudio...")
     p = pyaudio.PyAudio()
     stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8000)
     stream.start_stream()
-    print("PyAudio initialized and stream started.")
+    logging.info("PyAudio initialized and stream started.")
+    
 
     update_status("Listening for command...")
     
@@ -60,7 +79,6 @@ def listen_and_type(update_status):
             result_dict = json.loads(result)
             command = result_dict.get('text', '').strip()
             if command:
-                print(f"Recognized command: {command}")
                 words = command.lower().split()
                 abbreviated_command = []
                 numeric_string = ""
@@ -74,26 +92,25 @@ def listen_and_type(update_status):
                         numeric_string = process_number(numeric_string)
 
                 final_abbreviation = ';' + ''.join(abbreviated_command) + numeric_string
-                print(f"Mapped command: {final_abbreviation}")
 
                 update_status(f"You said: {command} (Mapped: {final_abbreviation})")
+                log_command_mapping(command, final_abbreviation) # Log the mapping (FOR TESTING PURPOSES)
                 time.sleep(1)
 
-                pyautogui.write(final_abbreviation)
-                print("Command typed.")
+                pyautogui.write(final_abbreviation + '\n', interval=0)
+                logging.info("Command typed.")
 
                 break
 
     stream.stop_stream()
     stream.close()
     p.terminate()
-    print("Stream stopped and PyAudio terminated.")
+    logging.info("Stream stopped and PyAudio terminated.\n")
 
 def start_listening(update_status):
     # Wait for the ptt_key key press and call listen_and_type function
-    print(f"Waiting for {settings.ptt_key} key press to start listening...")
+    logging.info(f"Waiting for {settings.ptt_key} key press to start listening...\n")
     while True:
-        print(f"Press {settings.ptt_key} to start listening")
         keyboard.wait(f"{settings.ptt_key}")
-        print(f"{settings.ptt_key} key pressed. Starting to listen...")
+        logging.info(f"{settings.ptt_key} key pressed. Starting to listen...")
         listen_and_type(update_status)
